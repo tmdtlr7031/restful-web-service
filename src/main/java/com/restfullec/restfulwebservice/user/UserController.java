@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class UserController {
 
     // POST로 해당 url 요청 시
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) { // POST, PUT과같은 메서드에선
-                                                    // 클라이언트에서 폼데이터가 아닌 JSON이나 XML같이 Object 형태의 데이터를 받기 위해서 @RequestBody 선언
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) { // POST, PUT과같은 메서드에선
+                                                                            // 클라이언트에서 폼데이터가 아닌 JSON이나 XML같이 Object 형태의 데이터를 받기 위해서 @RequestBody 선언
         User savedUser = service.save(user);
 
         /*
@@ -64,5 +65,14 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id) {
+        User user = service.deleteById(id);
+
+        if (user == null) {
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
     }
 }
