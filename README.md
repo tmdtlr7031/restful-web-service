@@ -13,3 +13,6 @@ springBoot를 이용한 RESTful Web Services개발 강의
 
 ## 2020-07-28
 - delete 처리 ~ 다국어 처리
+
+## 2020-08-01
+- XML format ~ API Version관리
